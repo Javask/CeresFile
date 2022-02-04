@@ -1,0 +1,10 @@
+out
+/.vs
+/cmake
+/bin
+/.clangd
+compile_commands.json
+CMakeFiles
+Makefile
+cmake_install.cmake
+CMakeCache.txt
