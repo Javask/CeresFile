@@ -1,10 +1,13 @@
 out
 /.vs
-/cmake
 /bin
 /.clangd
+build* 
+.vscode
 compile_commands.json
 CMakeFiles
 Makefile
 cmake_install.cmake
 CMakeCache.txt
+.idea
+cmake-build-*
