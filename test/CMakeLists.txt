@@ -15,6 +15,7 @@ add_executable(CeresFileTests ${CERESFILE_TEST_FILES})
 target_link_libraries(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
 add_dependencies(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
 set_target_properties(CeresFileTests PROPERTIES CXX_STANDARD 20)
+target_include_directories(CeresFileTests PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../src" "${CMAKE_CURRENT_LIST_DIR}/../include")
 
 
 enable_testing()
