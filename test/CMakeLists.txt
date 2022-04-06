@@ -1,13 +1,21 @@
-include(CTest)
-include("${CMAKE_CURRENT_LIST_DIR}/../thirdparty/catch/contrib/Catch.cmake")
-enable_testing()
+cmake_minimum_required(VERSION 3.18)
+
+project(CeresFileTests)
+
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/CPM.cmake)
+
+#add Catch2
+CPMAddPackage("gh:catchorg/Catch2@2.13.8")
 
 file(GLOB_RECURSE CERESFILE_TEST_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/*.h"
 							   "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
-set(CERESFILE_TEST_PROJECT_NAME "CeresFile_Test")
 
-add_executable(CeresFile_Test ${CERESFILE_TEST_FILES})
-target_link_libraries(CeresFile_Test Catch2::Catch2 CeresFile)
-add_dependencies(CeresFile_Test Catch2::Catch2 CeresFile)
 
-catch_discover_tests(CeresFile_Test)
+add_executable(CeresFileTests ${CERESFILE_TEST_FILES})
+target_link_libraries(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
+add_dependencies(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
+set_target_properties(CeresFileTests PROPERTIES CXX_STANDARD 20)
+
+
+enable_testing()
+add_test(CeresFileTests CeresFileTests)
