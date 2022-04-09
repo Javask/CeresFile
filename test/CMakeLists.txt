@@ -14,7 +14,7 @@ file(GLOB_RECURSE CERESFILE_TEST_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_D
 add_executable(CeresFileTests ${CERESFILE_TEST_FILES})
 target_link_libraries(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
 add_dependencies(CeresFileTests Catch2::Catch2 CeresFile::CeresFile)
-set_target_properties(CeresFileTests PROPERTIES CXX_STANDARD 20)
+set_target_properties(CeresFileTests PROPERTIES CXX_STANDARD 20 COMPILE_OPTIONS "${CERES_CXX_FLAGS}")
 target_include_directories(CeresFileTests PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../src" "${CMAKE_CURRENT_LIST_DIR}/../include")
 
 
