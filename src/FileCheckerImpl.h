@@ -11,12 +11,12 @@
 
 struct FileInfo {
   bool exists;
+  size_t fileSize;
   std::filesystem::file_time_type lastModified;
   std::function<void(const std::filesystem::path&, FileAction action)> callback;
 };
 
 class FileCheckerImpl {
-
  public:
   FileCheckerImpl();
   virtual ~FileCheckerImpl();

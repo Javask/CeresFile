@@ -21,6 +21,7 @@ void FileCheckerImpl::registerFileWatch(
   info.exists = fs::exists(file);
   if (info.exists) {
     info.lastModified = fs::last_write_time(file);
+    info.fileSize = fs::file_size(file);
   }
   info.callback = notify;
   map.emplace(file, info);
@@ -36,15 +37,22 @@ void FileCheckerImpl::checkFile(const std::filesystem::path& file,
                                 FileInfo& info) {
   auto exists = fs::exists(file);
   fs::file_time_type lastModified;
-  if (exists) lastModified = fs::last_write_time(file);
+  size_t fileSize;
+  if (exists) {
+    lastModified = fs::last_write_time(file);
+    fileSize = fs::file_size(file);
+  }
   if (exists != info.exists) {
     info.exists = exists;
     if (info.exists) {
       info.lastModified = lastModified;
+      info.fileSize = fileSize;
     }
     info.callback(file, exists ? FileAction::CREATED : FileAction::DELETED);
-  } else if (exists && lastModified != info.lastModified) {
+  } else if (exists &&
+             (lastModified != info.lastModified || fileSize != info.fileSize)) {
     info.lastModified = lastModified;
+    info.fileSize = fileSize;
     info.callback(file, FileAction::MODIFIED);
   }
 }
