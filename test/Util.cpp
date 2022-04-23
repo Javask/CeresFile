@@ -10,3 +10,13 @@ std::vector<char> stringToVector(const std::string& message) {
 std::string vectorToString(const std::vector<char>& message) {
   return std::string(message.data(), message.size());
 }
+
+bool loopUntil(std::atomic_bool& condition,
+               std::chrono::duration<int64_t, std::milli> timeout) {
+  auto start = std::chrono::high_resolution_clock::now();
+  while (!condition) {
+    auto now = std::chrono::high_resolution_clock::now();
+    if (now - start > timeout) return false;
+  }
+  return true;
+}

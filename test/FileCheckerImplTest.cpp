@@ -5,17 +5,7 @@
 #include <mutex>
 #include <ostream>
 #include <fstream>
-#include <chrono>
-
-bool loopUntil(std::atomic_bool& condition,
-               std::chrono::duration<int64_t, std::milli> timeout) {
-  auto start = std::chrono::high_resolution_clock::now();
-  while (!condition) {
-    auto now = std::chrono::high_resolution_clock::now();
-    if (now - start > timeout) return false;
-  }
-  return true;
-}
+#include "Util.h"
 
 TEST_CASE("FileCheckerImpl Test", "[file][thread]") {
   {
