@@ -1,7 +1,8 @@
 #pragma once
 #include <filesystem>
 #include <functional>
-#include "FileAction.h"
+#include "FileCallback.h"
+#include "FileWatch.h"
 
 class FileChecker {
  private:
@@ -9,9 +10,11 @@ class FileChecker {
   ~FileChecker() = default;
 
  public:
-  static void registerFileWatch(
-      const std::filesystem::path& file,
-      std::function<void(const std::filesystem::path&, FileAction action)>
-          notify);
-  static void unregisterFileWatch(const std::filesystem::path& file);
+  static FileWatch registerFileWatch(const std::filesystem::path& file,
+                                     FileCallback notify);
+  static void unregisterFileWatch(FileWatch id);
+  static void addFileToWatch(FileWatch id, const std::filesystem::path& file);
+  static void changeCallback(FileWatch id, FileCallback notify);
+  static void unregisterFileFromWatch(FileWatch id,
+                                      const std::filesystem::path& file);
 };

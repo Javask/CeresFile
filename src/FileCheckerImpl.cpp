@@ -11,30 +11,83 @@ FileCheckerImpl::~FileCheckerImpl() {
   checkerThread.join();
 }
 
-void FileCheckerImpl::registerFileWatch(
-    const std::filesystem::path& file,
-    std::function<void(const std::filesystem::path&, FileAction action)>
-        notify) {
+FileWatch FileCheckerImpl::registerFileWatch(const std::filesystem::path& file,
+                                             FileCallback notify) {
   auto lock = std::unique_lock(mapGuard);
-  if (map.contains(file)) return;
-  FileInfo info;
-  info.exists = fs::exists(file);
-  if (info.exists) {
-    info.lastModified = fs::last_write_time(file);
-    info.fileSize = fs::file_size(file);
+  auto id = getNextID();
+  ids[file].insert(id);
+  callbacks[id] = notify;
+  if (!map.contains(file)) {
+    addFileToMap(file);
   }
-  info.callback = notify;
-  map.emplace(file, info);
+  return id;
 }
 
-void FileCheckerImpl::unregisterFileWatch(const std::filesystem::path& file) {
+void FileCheckerImpl::addFileToWatch(FileWatch id,
+                                     const std::filesystem::path& file) {
   auto lock = std::unique_lock(mapGuard);
-  if (!map.contains(file)) return;
-  map.erase(file);
+  if (!callbacks.contains(id)) return;
+  ids[file].insert(id);
+  if (!map.contains(file)) {
+    addFileToMap(file);
+  }
 }
 
-void FileCheckerImpl::checkFile(const std::filesystem::path& file,
-                                FileInfo& info) {
+void FileCheckerImpl::changeCallback(FileWatch id, FileCallback notify) {
+  auto lock = std::unique_lock(mapGuard);
+  if (callbacks.contains(id)) callbacks[id] = notify;
+}
+
+void FileCheckerImpl::unregisterFileWatch(FileWatch id) {
+  auto lock = std::unique_lock(mapGuard);
+  std::vector<std::filesystem::path> toRemove;
+  for (auto fileNamePair : ids) {
+    if (fileNamePair.second.contains(id)) {
+      fileNamePair.second.erase(id);
+      if (fileNamePair.second.empty()) {
+        toRemove.push_back(fileNamePair.first);
+      }
+    }
+  }
+  for (auto file : toRemove) {
+    ids.erase(file);
+    map.erase(file);
+  }
+  if (callbacks.contains(id)) callbacks.erase(id);
+}
+
+void FileCheckerImpl::unregisterFileFromWatch(
+    FileWatch id, const std::filesystem::path& file) {
+  auto lock = std::unique_lock(mapGuard);
+  bool isOnlyFile = true;
+  std::vector<std::filesystem::path> toRemove;
+  for (auto fileNamePair : ids) {
+    if (fileNamePair.second.contains(id)) {
+      if (fileNamePair.first == file) {
+        fileNamePair.second.erase(id);
+        if (fileNamePair.second.empty()) {
+          toRemove.push_back(fileNamePair.first);
+        }
+      } else {
+        isOnlyFile = false;
+      }
+    }
+  }
+  for (auto file : toRemove) {
+    ids.erase(file);
+    map.erase(file);
+  }
+  if (isOnlyFile && callbacks.contains(id)) callbacks.erase(id);
+}
+
+void FileCheckerImpl::checkFile(const std::filesystem::path& file) {
+  auto idsForFile = ids[file];
+  auto& info = map[file];
+  auto callbacksForFile = std::vector<FileCallback>();
+  for (auto id : idsForFile) {
+    if (callbacks.contains(id)) callbacksForFile.push_back(callbacks[id]);
+  }
+
   auto exists = fs::exists(file);
   fs::file_time_type lastModified;
   size_t fileSize;
@@ -48,13 +101,25 @@ void FileCheckerImpl::checkFile(const std::filesystem::path& file,
       info.lastModified = lastModified;
       info.fileSize = fileSize;
     }
-    info.callback(file, exists ? FileAction::CREATED : FileAction::DELETED);
+    for (auto& c : callbacksForFile)
+      c(file, exists ? FileAction::CREATED : FileAction::DELETED);
+
   } else if (exists &&
              (lastModified != info.lastModified || fileSize != info.fileSize)) {
     info.lastModified = lastModified;
     info.fileSize = fileSize;
-    info.callback(file, FileAction::MODIFIED);
+    for (auto& c : callbacksForFile) c(file, FileAction::MODIFIED);
   }
+}
+
+void FileCheckerImpl::addFileToMap(const std::filesystem::path& file) {
+  FileInfo info;
+  info.exists = fs::exists(file);
+  if (info.exists) {
+    info.lastModified = fs::last_write_time(file);
+    info.fileSize = fs::file_size(file);
+  }
+  map.emplace(file, info);
 }
 
 void FileCheckerImpl::pCheckerMain() {
@@ -66,11 +131,16 @@ void FileCheckerImpl::pCheckerMain() {
       }
       if (!map.empty()) {
         for (auto& pair : map) {
-          checkFile(pair.first, pair.second);
+          checkFile(pair.first);
         }
       }
     }
 
     std::this_thread::sleep_for(timeStep);
   }
+}
+
+FileWatch FileCheckerImpl::getNextID() {
+  static FileWatch id = 0;
+  return id++;
 }

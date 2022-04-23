@@ -11,11 +11,12 @@ class FileCheckerSingleton : public Singleton<FileCheckerSingleton> {
   ~FileCheckerSingleton() = default;
 
  public:
-  void registerFileWatch(
-      const std::filesystem::path& file,
-      std::function<void(const std::filesystem::path&, FileAction action)>
-          notify);
-  void unregisterFileWatch(const std::filesystem::path& file);
+  FileWatch registerFileWatch(const std::filesystem::path& file,
+                              FileCallback notify);
+  void addFileToWatch(FileWatch id, const std::filesystem::path& file);
+  void changeCallback(FileWatch id, FileCallback notify);
+  void unregisterFileFromWatch(FileWatch id, const std::filesystem::path& file);
+  void unregisterFileWatch(FileWatch id);
 
  private:
   FileCheckerImpl impl;
