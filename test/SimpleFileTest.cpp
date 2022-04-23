@@ -15,7 +15,7 @@ std::string vectorToString(const std::vector<char>& message) {
   return std::string(message.data(), message.size());
 }
 
-TEST_CASE("Test file wrapper behaves correctly!", "[file]") {
+TEST_CASE("Simple file wrapper behaves correctly!", "[file]") {
   {
     auto tempDir = TemporaryDirectory();
     auto filePath = tempDir.createTempFile();
