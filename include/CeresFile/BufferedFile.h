@@ -5,7 +5,12 @@
 class BufferedFile : public File {
  public:
   BufferedFile(const std::filesystem::path& path, bool onlyWriteLocal = false);
+  BufferedFile(const File& base, bool onlyWriteLocal = false) noexcept;
+  BufferedFile(File&& base, bool onlyWriteLocal = false) noexcept;
   virtual ~BufferedFile() = default;
+
+  BufferedFile& operator=(const File& base) noexcept = delete;
+  BufferedFile& operator=(File&& base) noexcept = delete;
 
   std::optional<std::vector<char>> read() override;
   bool overwrite(std::vector<char> data) override;

@@ -69,3 +69,9 @@ bool BufferedFile::append(std::vector<char> inData) {
   writeToBuffer(inData, data.size());
   return true;
 }
+
+BufferedFile::BufferedFile(const File& base, bool onlyWriteLocal) noexcept
+    : BufferedFile(base.getPath(), onlyWriteLocal) {}
+
+BufferedFile::BufferedFile(File&& base, bool onlyWriteLocal) noexcept
+    : BufferedFile(base.getPath(), onlyWriteLocal) {}

@@ -91,12 +91,14 @@ bool File::create(bool overwrite) {
 
 void File::deleteFile() { fs::remove(filePath); }
 
-bool File::exists() { return fs::exists(filePath); }
+bool File::exists() const { return fs::exists(filePath); }
 
-std::filesystem::file_time_type File::lastModified() {
+std::filesystem::file_time_type File::lastModified() const {
   return fs::last_write_time(filePath);
 }
 
-size_t File::getFileSize() { return fs::file_size(filePath); }
+size_t File::getFileSize() const { return fs::file_size(filePath); }
 
-std::filesystem::path File::getPath() { return filePath; }
+std::filesystem::path File::getPath() const { return filePath; }
+
+bool File::operator==(const File& other) { return filePath == other.filePath; }
