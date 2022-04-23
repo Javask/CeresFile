@@ -6,9 +6,8 @@
 TEST_CASE("Checked File behaves correctly", "[file][thread]") {
   {
     auto tempDir = TemporaryDirectory();
-    auto filePath = tempDir.createTempFile();
+    auto filePath = tempDir.createTempFile().getPath();
     auto fileWrapper = BufferedFile(filePath, false);
-    auto filePathStr = filePath.generic_string();
     REQUIRE(fileWrapper.exists());
     fileWrapper.deleteFile();
     REQUIRE(!fileWrapper.exists());

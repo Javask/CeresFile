@@ -2,7 +2,9 @@
 
 namespace fs = std::filesystem;
 
-File::File(const std::filesystem::path& path) : filePath(path) {}
+File::File(const std::filesystem::path& path) : filePath(path) {
+  if (!exists()) create();
+}
 
 std::optional<std::ofstream> File::openWrite(FileWriteMode mode,
                                              int64_t offset) {
@@ -102,3 +104,5 @@ size_t File::getFileSize() const { return fs::file_size(filePath); }
 std::filesystem::path File::getPath() const { return filePath; }
 
 bool File::operator==(const File& other) { return filePath == other.filePath; }
+
+std::filesystem::path File::filename() const { return filePath.filename(); }

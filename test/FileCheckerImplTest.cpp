@@ -11,8 +11,8 @@ TEST_CASE("FileCheckerImpl Test", "[file][thread]") {
   {
     auto timeout = std::chrono::seconds(10);
     auto tmpDir = TemporaryDirectory();
-    auto tmpFilePath = tmpDir.createTempFile();
-    auto tmpFilePath2 = tmpDir.createTempFile();
+    auto tmpFilePath = tmpDir.createTempFile().getPath();
+    auto tmpFilePath2 = tmpDir.createTempFile().getPath();
     std::atomic_bool isReady = false;
     std::atomic_bool hasBeenCreated = false;
     std::atomic_bool hasBeenDeleted = false;

@@ -14,24 +14,28 @@ TEST_CASE("Temporary File created", "[utility][temporarydir]") {
   {
     auto tempDir = TemporaryDirectory();
     auto tmpFile = tempDir.createTempFile();
-    REQUIRE(fs::exists(tmpFile));
+    REQUIRE(tmpFile.exists());
   }
 }
 
 TEST_CASE("Named Temporary File created", "[utility][temporarydir]") {
   {
     auto tempDir = TemporaryDirectory();
-    auto tmpFile = tempDir.createNewFileInDir("testFile.tmp");
-    REQUIRE(fs::exists(tmpFile));
-    REQUIRE(tmpFile.filename() == "testFile.tmp");
-    auto tmpFile2 = tempDir.createNewFileInDir("testFile.tmp");
-    REQUIRE(fs::exists(tmpFile2));
-    REQUIRE(tmpFile2.filename() == "testFile(1).tmp");
-    auto tmpFile3 = tempDir.createNewFileInDir("testFile");
-    REQUIRE(fs::exists(tmpFile3));
-    REQUIRE(tmpFile3.filename() == "testFile");
-    auto tmpFile4 = tempDir.createNewFileInDir(".testFile");
-    REQUIRE(fs::exists(tmpFile4));
-    REQUIRE(tmpFile4.filename() == ".testFile");
+    auto tmpFile = tempDir.createFile("testFile.tmp");
+    REQUIRE(tmpFile);
+    REQUIRE(tmpFile->exists());
+    REQUIRE(tmpFile->filename() == "testFile.tmp");
+    auto tmpFile2 = tempDir.createFile("testFile.tmp");
+    REQUIRE(tmpFile2);
+    REQUIRE(tmpFile2->exists());
+    REQUIRE(tmpFile2->filename() == "testFile(1).tmp");
+    auto tmpFile3 = tempDir.createFile("testFile");
+    REQUIRE(tmpFile3);
+    REQUIRE(tmpFile3->exists());
+    REQUIRE(tmpFile3->filename() == "testFile");
+    auto tmpFile4 = tempDir.createFile(".testFile");
+    REQUIRE(tmpFile4);
+    REQUIRE(tmpFile4->exists());
+    REQUIRE(tmpFile4->filename() == ".testFile");
   }
 }
