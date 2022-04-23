@@ -56,8 +56,9 @@ bool File::overwrite(std::vector<char> data) {
   return !fail;
 }
 
-bool File::write(std::vector<char> data, int64_t offset) {
-  auto streamOpt = openWrite(FileWriteMode::WRITE, offset);
+bool File::write(std::vector<char> data, size_t offset) {
+  auto streamOpt =
+      openWrite(FileWriteMode::WRITE, static_cast<int64_t>(offset));
   if (!streamOpt) return {};
   if (streamOpt->fail()) {
     streamOpt->close();
@@ -96,6 +97,6 @@ std::filesystem::file_time_type File::lastModified() {
   return fs::last_write_time(filePath);
 }
 
-size_t File::hash() { return fs::hash_value(filePath); }
+size_t File::getFileSize() { return fs::file_size(filePath); }
 
 std::filesystem::path File::getPath() { return filePath; }

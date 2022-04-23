@@ -7,32 +7,31 @@
 #include <vector>
 #include <optional>
 
-enum FileWriteMode { APPEND, TRUNCATE, WRITE };
-enum FileOpenPos { BEGINNING, END };
-
 class File {
  protected:
   File(const std::filesystem::path& path);
   virtual ~File() = default;
 
  public:
-  std::optional<std::ofstream> openWrite(FileWriteMode mode,
-                                         int64_t offset = 0);
-  std::optional<std::ifstream> openRead(FileOpenPos pos, int64_t offset = 0);
-
-  std::optional<std::vector<char>> read();
-  bool overwrite(std::vector<char> data);
-  bool write(std::vector<char> data, int64_t offset = 0);
-  bool append(std::vector<char> data);
+  virtual std::optional<std::vector<char>> read();
+  virtual bool overwrite(std::vector<char> data);
+  virtual bool write(std::vector<char> data, size_t offset = 0);
+  virtual bool append(std::vector<char> data);
 
   bool create(bool overwrite = false);
   void deleteFile();
 
   bool exists();
   std::filesystem::file_time_type lastModified();
-  size_t hash();
+  size_t getFileSize();
   std::filesystem::path getPath();
 
  protected:
+  enum FileWriteMode { APPEND, TRUNCATE, WRITE };
+  enum FileOpenPos { BEGINNING, END };
+  std::optional<std::ofstream> openWrite(FileWriteMode mode,
+                                         int64_t offset = 0);
+  std::optional<std::ifstream> openRead(FileOpenPos pos, int64_t offset = 0);
+
   const std::filesystem::path filePath;
 };
