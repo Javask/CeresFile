@@ -47,6 +47,7 @@ add_library(CeresFile::CeresFile ALIAS CeresFile)
 
 option(CERESFILE_BUILD_TESTS "Build CeresFile Tests" ON)
 if(CERESFILE_BUILD_TESTS)
+  enable_testing()
   add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/test/")
 endif()
 

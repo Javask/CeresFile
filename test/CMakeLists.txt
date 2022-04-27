@@ -18,5 +18,4 @@ set_target_properties(CeresFileTests PROPERTIES CXX_STANDARD 20 COMPILE_OPTIONS 
 target_include_directories(CeresFileTests PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../src" "${CMAKE_CURRENT_LIST_DIR}/../include")
 
 
-enable_testing()
-add_test(CeresFileTests CeresFileTests)
+add_test(CeresFileTests ${EXECUTABLE_OUTPUT_PATH}/CeresFileTests)
