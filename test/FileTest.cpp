@@ -4,6 +4,7 @@
 #include "CeresFile/TemporaryDirectory.h"
 #include "Util.h"
 
+using namespace CeresFile;
 TEST_CASE("Simple file wrapper behaves correctly!", "[file]") {
   {
     auto tempDir = TemporaryDirectory();

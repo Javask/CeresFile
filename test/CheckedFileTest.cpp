@@ -3,6 +3,7 @@
 #include "CeresFile/TemporaryDirectory.h"
 #include "Util.h"
 
+using namespace CeresFile;
 TEST_CASE("Checked File behaves correctly", "[file][thread]") {
   {
     auto tempDir = TemporaryDirectory();

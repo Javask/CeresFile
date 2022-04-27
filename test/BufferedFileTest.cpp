@@ -2,7 +2,7 @@
 #include "CeresFile/BufferedFile.h"
 #include "CeresFile/TemporaryDirectory.h"
 #include "Util.h"
-
+namespace CeresFile {
 TEST_CASE("Buffered File behaves correctly", "[file]") {
   {
     auto tempDir = TemporaryDirectory();
@@ -45,3 +45,4 @@ TEST_CASE("Buffered File behaves correctly", "[file]") {
     }
   }
 }
+}  // namespace CeresFile

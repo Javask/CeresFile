@@ -2,6 +2,7 @@
 #include "CeresFile/TemporaryDirectory.h"
 
 namespace fs = std::filesystem;
+using namespace CeresFile;
 
 TEST_CASE("Temporary Directory created", "[utility][temporarydir]") {
   {

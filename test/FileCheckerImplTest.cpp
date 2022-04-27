@@ -7,6 +7,7 @@
 #include <fstream>
 #include "Util.h"
 
+using namespace CeresFile;
 TEST_CASE("FileCheckerImpl Test", "[file][thread]") {
   {
     auto timeout = std::chrono::seconds(10);
