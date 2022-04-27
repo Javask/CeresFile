@@ -1,5 +1,8 @@
 #include "CeresFile/BufferedFile.h"
 #include <cstring>
+
+namespace CeresFile {
+
 BufferedFile::BufferedFile(const std::filesystem::path& path,
                            bool onlyWriteLocal)
     : File(path), onlyWriteLocal(onlyWriteLocal) {
@@ -102,3 +105,4 @@ BufferedFile::BufferedFile(const BufferedFile& other) noexcept
   doesExist = other.doesExist;
   currFileSize = other.currFileSize;
 }
+}  // namespace CeresFile

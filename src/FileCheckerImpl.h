@@ -11,6 +11,8 @@
 #include "CeresFile/FileCallback.h"
 #include "CeresFile/FileWatch.h"
 
+namespace CeresFile {
+
 struct FileInfo {
   bool exists;
   size_t fileSize;
@@ -42,3 +44,5 @@ class FileCheckerImpl {
   std::map<FileWatch, FileCallback> callbacks;
   static FileWatch getNextID();
 };
+
+}  // namespace CeresFile

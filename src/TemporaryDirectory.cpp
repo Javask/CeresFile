@@ -8,6 +8,7 @@
 #include <cstring>
 
 namespace fs = std::filesystem;
+namespace CeresFile {
 
 TemporaryDirectory::TemporaryDirectory() : Directory(createTempDir()) {}
 
@@ -22,3 +23,5 @@ fs::path TemporaryDirectory::createTempDir() {
 }
 
 TemporaryDirectory::~TemporaryDirectory() { fs::remove_all(dirPath); }
+
+}  // namespace CeresFile

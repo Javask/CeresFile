@@ -3,6 +3,8 @@
 #include "File.h"
 #include <optional>
 
+namespace CeresFile {
+
 class Directory {
  public:
   Directory(const std::filesystem::path& path);
@@ -32,3 +34,5 @@ class Directory {
  protected:
   std::filesystem::path dirPath;
 };
+
+}  // namespace CeresFile

@@ -2,6 +2,8 @@
 
 namespace fs = std::filesystem;
 
+namespace CeresFile {
+
 FileCheckerImpl::FileCheckerImpl() {
   checkerThread = std::thread([this]() { this->pCheckerMain(); });
 }
@@ -144,3 +146,5 @@ FileWatch FileCheckerImpl::getNextID() {
   static FileWatch id = 0;
   return id++;
 }
+
+}  // namespace CeresFile

@@ -4,6 +4,8 @@
 #include "FileCallback.h"
 #include "FileWatch.h"
 
+namespace CeresFile {
+
 class FileChecker {
  private:
   FileChecker() = default;
@@ -18,3 +20,5 @@ class FileChecker {
   static void unregisterFileFromWatch(FileWatch id,
                                       const std::filesystem::path& file);
 };
+
+}  // namespace CeresFile

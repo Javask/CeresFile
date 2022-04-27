@@ -2,6 +2,8 @@
 
 namespace fs = std::filesystem;
 
+namespace CeresFile {
+
 File::File(const std::filesystem::path& path) : filePath(path) {
   if (!exists()) create();
 }
@@ -106,3 +108,5 @@ std::filesystem::path File::getPath() const { return filePath; }
 bool File::operator==(const File& other) { return filePath == other.filePath; }
 
 std::filesystem::path File::filename() const { return filePath.filename(); }
+
+}  // namespace CeresFile

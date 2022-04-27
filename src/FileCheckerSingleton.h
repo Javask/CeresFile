@@ -2,6 +2,8 @@
 #include "Singleton.h"
 #include "FileCheckerImpl.h"
 
+namespace CeresFile {
+
 class FileCheckerSingleton : public Singleton<FileCheckerSingleton> {
   friend class Singleton<FileCheckerSingleton>;
   friend class Destroyer<FileCheckerSingleton>;
@@ -21,3 +23,5 @@ class FileCheckerSingleton : public Singleton<FileCheckerSingleton> {
  private:
   FileCheckerImpl impl;
 };
+
+}  // namespace CeresFile

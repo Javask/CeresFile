@@ -1,6 +1,8 @@
 #include "CeresFile/FileChecker.h"
 #include "FileCheckerSingleton.h"
 
+namespace CeresFile {
+
 FileWatch FileChecker::registerFileWatch(
     const std::filesystem::path& file,
     std::function<void(const std::filesystem::path&, FileAction action)>
@@ -25,3 +27,5 @@ void FileChecker::unregisterFileFromWatch(FileWatch id,
                                           const std::filesystem::path& file) {
   FileCheckerSingleton::Get()->unregisterFileFromWatch(id, file);
 }
+
+}  // namespace CeresFile

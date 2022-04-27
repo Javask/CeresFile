@@ -7,6 +7,8 @@
 #include <vector>
 #include <optional>
 
+namespace CeresFile {
+
 class File {
  public:
   File(const std::filesystem::path& path);
@@ -36,3 +38,5 @@ class File {
 
   const std::filesystem::path filePath;
 };
+
+}  // namespace CeresFile

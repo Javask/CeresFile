@@ -5,6 +5,8 @@
 #include "FileCallback.h"
 #include <atomic>
 
+namespace CeresFile {
+
 class CheckedFile : public BufferedFile {
  public:
   CheckedFile(const std::filesystem::path& filePath,
@@ -24,3 +26,5 @@ class CheckedFile : public BufferedFile {
   std::atomic_bool valid = true;
   FileWatch id;
 };
+
+}  // namespace CeresFile

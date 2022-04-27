@@ -2,6 +2,8 @@
 #include "File.h"
 #include <mutex>
 
+namespace CeresFile {
+
 class BufferedFile : public File {
  public:
   BufferedFile(const std::filesystem::path& path, bool onlyWriteLocal = false);
@@ -37,3 +39,5 @@ class BufferedFile : public File {
  private:
   BufferedFile(bool onlyWriteLocal);
 };
+
+}  // namespace CeresFile

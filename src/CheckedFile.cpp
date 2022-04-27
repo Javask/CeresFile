@@ -1,6 +1,8 @@
 #include "CeresFile/CheckedFile.h"
 #include "CeresFile/FileChecker.h"
 
+namespace CeresFile {
+
 CheckedFile::CheckedFile(const std::filesystem::path& filePath,
                          bool onlyWriteLocal)
     : BufferedFile(filePath, onlyWriteLocal) {
@@ -39,3 +41,5 @@ FileCallback CheckedFile::getCallback() {
     if (valid) onChange(path, action);
   };
 }
+
+}  // namespace CeresFile

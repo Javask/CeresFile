@@ -1,6 +1,8 @@
 #pragma once
 #include "Directory.h"
 
+namespace CeresFile {
+
 class TemporaryDirectory : public Directory {
  public:
   TemporaryDirectory();
@@ -9,3 +11,5 @@ class TemporaryDirectory : public Directory {
  private:
   static std::filesystem::path createTempDir();
 };
+
+}  // namespace CeresFile

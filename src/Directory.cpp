@@ -1,6 +1,8 @@
 #include "CeresFile/Directory.h"
 #include "RandomString.h"
+
 namespace fs = std::filesystem;
+namespace CeresFile {
 
 Directory::Directory(const std::filesystem::path& path) : dirPath(path) {
   if (!exists()) fs::create_directory(path);
@@ -137,3 +139,5 @@ std::optional<Directory> Directory::createDirectory() {
   }
   return Directory(path);
 }
+
+}  // namespace CeresFile
