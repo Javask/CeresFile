@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 #include <thread>
 #include <chrono>
 #include <atomic>

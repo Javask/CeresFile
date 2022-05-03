@@ -1,12 +1,12 @@
 #pragma once
-#include "Singleton.h"
+#include <Utilities/Singleton.h>
 #include "FileCheckerImpl.h"
 
 namespace CeresFile {
 
-class FileCheckerSingleton : public Singleton<FileCheckerSingleton> {
-  friend class Singleton<FileCheckerSingleton>;
-  friend class Destroyer<FileCheckerSingleton>;
+class FileCheckerSingleton : public Utilities::Singleton<FileCheckerSingleton> {
+  friend class Utilities::Singleton<FileCheckerSingleton>;
+  friend class Utilities::Destroyer<FileCheckerSingleton>;
 
  protected:
   FileCheckerSingleton() = default;

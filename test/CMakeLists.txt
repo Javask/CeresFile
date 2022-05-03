@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.18)
 
 project(CeresFileTests)
 
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/CPM.cmake)
 
 #add Catch2
 CPMAddPackage("gh:catchorg/Catch2@2.13.8")

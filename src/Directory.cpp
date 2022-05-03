@@ -1,5 +1,5 @@
 #include "CeresFile/Directory.h"
-#include "RandomString.h"
+#include <Utilities/StringUtils.h>
 
 namespace fs = std::filesystem;
 namespace CeresFile {
@@ -118,11 +118,11 @@ Directory& Directory::operator=(const Directory& other) noexcept {
 
 File Directory::createTempFile() {
   auto path = dirPath;
-  path.append(generateRandomString(8) + ".tmp");
+  path.append(Utilities::generateRandomString(8) + ".tmp");
   if (fs::exists(path)) {
     while (fs::exists(path)) {
       path = dirPath;
-      path.append(generateRandomString(8) + ".tmp");
+      path.append(Utilities::generateRandomString(8) + ".tmp");
     }
   }
   return File(path);
@@ -130,11 +130,11 @@ File Directory::createTempFile() {
 
 std::optional<Directory> Directory::createDirectory() {
   auto path = dirPath;
-  path.append(generateRandomString(8));
+  path.append(Utilities::generateRandomString(8));
   if (fs::exists(path)) {
     while (fs::exists(path)) {
       path = dirPath;
-      path.append(generateRandomString(8));
+      path.append(Utilities::generateRandomString(8));
     }
   }
   return Directory(path);

@@ -7,9 +7,6 @@ class TemporaryDirectory : public Directory {
  public:
   TemporaryDirectory();
   virtual ~TemporaryDirectory();
-
- private:
-  static std::filesystem::path createTempDir();
 };
 
 }  // namespace CeresFile
