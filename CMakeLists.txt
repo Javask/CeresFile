@@ -32,7 +32,7 @@ endif()
 
 
 CPMAddPackage(NAME Utilities 
-              GIT_TAG v1.0.0-alpha5
+              GIT_TAG v1.0.0-alpha6
               GITHUB_REPOSITORY Javask/Utilities
               OPTIONS
                 "UTILITIES_BUILD_TESTS OFF")
