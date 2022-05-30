@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include "CeresFile/TemporaryDirectory.h"
 
 namespace fs = std::filesystem;

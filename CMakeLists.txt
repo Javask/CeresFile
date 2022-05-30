@@ -38,7 +38,7 @@ CPMAddPackage(NAME Utilities
                 "UTILITIES_BUILD_TESTS OFF")
 
 file(GLOB_RECURSE CERESFILE_SOURCE_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
-add_library(CeresFile STATIC ${CERESFILE_SOURCE_FILES})
+add_library(CeresFile OBJECT ${CERESFILE_SOURCE_FILES})
 set_target_properties(CeresFile PROPERTIES CXX_STANDARD 20 COMPILE_OPTIONS "${CERES_CXX_FLAGS}")
 target_link_libraries(CeresFile Utilities::Utilities)
 if(UNIX)
